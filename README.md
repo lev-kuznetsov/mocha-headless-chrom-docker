@@ -1,2 +1,2 @@
-# mocha-headless-chrom-docker
+# mocha-headless-chrome-docker
 Docker image for running mocha-headless-chrome tests
