@@ -1,0 +1,29 @@
+name: Docker
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: levk/mocha-headless-chrome-docker
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v1.0
+        name: Check out code
+
+      - uses: mr-smithers-excellent/docker-build-push@v3
+        name: Build & push Docker image
+        with:
+          image: levk/mocha-headless-chrome-docker
+          tags: latest, $(date +"%Y-%m-%d")
+          dockerfile: Dockerfile
+          username: levk
+          password: ${{ secrets.DOCKER_TOKEN }}
