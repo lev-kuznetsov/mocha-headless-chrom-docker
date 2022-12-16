@@ -24,6 +24,7 @@ jobs:
         with:
           image: levk/mocha-headless-chrome-docker
           tags: latest, $(date +"%Y-%m-%d")
+          registry: docker.io
           dockerfile: Dockerfile
           username: levk
           password: ${{ secrets.DOCKER_TOKEN }}
