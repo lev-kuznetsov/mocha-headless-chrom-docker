@@ -17,18 +17,20 @@ jobs:
 
     steps:
       - name: Create dated tag
-        id: tag
-        run: echo "::set-output name=tag::$(date +'%Y-%m-%d')"
+        id: meta
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       - uses: actions/checkout@v3
         name: Check out code
 
-      - uses: mr-smithers-excellent/docker-build-push@v4.0
-        name: Build & push Docker image
+      - uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
-          image: levk/mocha-headless-chrome-docker
-          tags: ${{ steps.tag.outputs.tag }},latest
-          registry: docker.io
-          dockerfile: Dockerfile
           username: levk
           password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: levk/mocha-headless-chrome-docker:latest , levk/mocha-headless-chrome-docker:${{ steps.meta.outputs.date }}
