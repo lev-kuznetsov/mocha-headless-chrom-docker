@@ -27,7 +27,7 @@ jobs:
         name: Build & push Docker image
         with:
           image: levk/mocha-headless-chrome-docker
-          tags: latest,{{ steps.tag.outputs.tag }}
+          tags: latest,${{ steps.tag.outputs.tag }}
           registry: docker.io
           dockerfile: Dockerfile
           username: levk
