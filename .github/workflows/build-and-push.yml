@@ -16,6 +16,10 @@ jobs:
       packages: write
 
     steps:
+      - name: Create dated tag
+        id: tag
+        run: echo "::set-output name=tag::$(date +'%Y-%m-%d')"
+
       - uses: actions/checkout@v3
         name: Check out code
 
@@ -23,7 +27,7 @@ jobs:
         name: Build & push Docker image
         with:
           image: levk/mocha-headless-chrome-docker
-          tags: latest, $(date +"%Y-%m-%d")
+          tags: latest,{{ steps.tag.outputs.tag }}
           registry: docker.io
           dockerfile: Dockerfile
           username: levk
